@@ -20,7 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('face_recognition'))
+    path('', include('face_recognition.urls'))
 ]
 
 if settings.DEBUG:
