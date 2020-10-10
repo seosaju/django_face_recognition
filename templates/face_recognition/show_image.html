@@ -7,9 +7,9 @@
   <title>Show actor image</title>
 </head>
 <body>
-    <h1>Name - {{ actor.image }}</h1>
-    <img src="{{ actor.actor_image.url }}" alt="Image" width="250" height="250">
+    <h1>Name - {{ actor.name }}</h1>
+    <img src="{{ actor.image.url }}" alt="Image">
     <br>
-    <a href="{% url '' %}">Back</a>
+    <a href="{% url 'face_recognition:index' %}">Back</a>
 </body>
 </html>
