@@ -1,0 +1,15 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Show actor image</title>
+</head>
+<body>
+    <h1>Name - {{ actor.image }}</h1>
+    <img src="{{ actor.actor_image.url }}" alt="Image" width="250" height="250">
+    <br>
+    <a href="{% url '' %}">Back</a>
+</body>
+</html>
