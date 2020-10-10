@@ -1,3 +1,5 @@
+import time
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
@@ -13,6 +15,8 @@ class ActorImageTV(TemplateView):
     def post(self, request, *args, **kwargs):
         form = ActorForm(request.POST, request.FILES)
         if form.is_valid():
+            today = time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))
+            form.name = f'image_{today}'
             obj = form.save()
             return HttpResponseRedirect(reverse_lazy('face_recognition:display', kwargs={'pk': obj.id}))
         context = self.get_context_data(form=form)
