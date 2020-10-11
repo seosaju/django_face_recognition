@@ -16,8 +16,7 @@ class ActorImageTV(TemplateView):
         form = ActorForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
-            today = time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))
-            obj.name = f'image_{today}'
+            obj.name = f"image_{time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))}"
             obj.save()
             return HttpResponseRedirect(reverse_lazy('face_recognition:display', kwargs={'pk': obj.id}))
         context = self.get_context_data(form=form)
