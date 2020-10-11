@@ -1,17 +1,17 @@
+import cv2
 import dlib
 import torch
 from efficientnet_pytorch import EfficientNet
 from skimage import io
 from skimage.transform import resize
 from torchvision import transforms
-import cv2
 
 labels = ['Chang_Hyejin', 'Choei_Usik', 'Jeong_Hyeonjun', 'Jeong_Iseo', 'Jeong_Jiso',
               'Jo_Yeojeong', 'Lee_Jeongeun', 'Lee_Seongyun', 'Park_Geunrok', 'Park_Myeonghun',
               'Park_Sodam', 'Song_Gangho']
 
 
-def face_recognition(image_path):
+def efficient_net_face_recognition(image_path):
     path = image_path   # Image path
 
     # Efficient-Net

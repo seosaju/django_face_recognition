@@ -2,14 +2,20 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+<style>
+    img {
+        width: 30%;
+        height 30%;
+    }
+</style>
 <head>
   <meta charset="UTF-8">
   <title>Show actor image</title>
 </head>
 <body>
-    <h1>Name - {{ actor.name }}</h1>
-    <img src="{{ actor.image.url }}" alt="Image">
-    <br>
+    <h3>Name: {{ actor.name }}</h3>
+    <p><img src="{{ actor.image.url }}" alt="Image"> <img src="{{ face_detect_image }}" alt="Image"></p>
+    <h2>{{ result }}</h2>
     <a href="{% url 'face_recognition:index' %}">Back</a>
 </body>
 </html>
