@@ -5,7 +5,7 @@
 <style>
     img {
         width: 30%;
-        height 30%;
+        height: 30%;
     }
 </style>
 <head>
@@ -15,7 +15,9 @@
 <body>
     <h3>Name: {{ actor.name }}</h3>
     <p><img src="{{ actor.image.url }}" alt="Image"> <img src="{{ face_detect_image }}" alt="Image"></p>
-    <h2>{{ result }}</h2>
+    {% for name, percentage in result  %}
+        <p>{{ name }}: {{ percentage }}%</p>
+    {% endfor %}
     <a href="{% url 'face_recognition:index' %}">Back</a>
 </body>
 </html>

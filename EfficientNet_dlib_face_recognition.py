@@ -41,9 +41,15 @@ def efficient_net_face_recognition(image_path):
         else:
             # Face Recognition
             face = image_loader(face, loader)
-            _, output = torch.max(model(face), 1)
-            print(labels[output.item()])    # Result
-            return {"image": face_detect_image, "result": labels[output.item()]}
+            sigmoid = torch.sigmoid(model(face)).tolist()[0]
+            accuracy = [str(acc)[0:7] for acc in sigmoid]
+            result = dict()
+            for j, acc in enumerate(accuracy):
+                result[labels[j]] = acc
+            result = sorted(result.items(), reverse=True, key=lambda item: item[1])
+            return {"image": face_detect_image, "result": result}
+            # _, output = torch.max(model(face), 1)
+            # print(labels[output.item()])    # Result
 
 
 def image_loader(resize_face, loader):
