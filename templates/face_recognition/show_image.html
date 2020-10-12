@@ -13,7 +13,6 @@
   <title>Show actor image</title>
 </head>
 <body>
-    <h3>Name: {{ actor.name }}</h3>
     <p><img src="{{ actor.image.url }}" alt="Image"> <img src="{{ face_detect_image }}" alt="Image"></p>
     {% for name, percentage in result  %}
         <p>{{ name }}: {{ percentage }}%</p>
