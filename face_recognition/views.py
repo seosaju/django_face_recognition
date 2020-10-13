@@ -30,7 +30,7 @@ class ActorImageTV(TemplateView):
 
 class ActorDisplayDV(DetailView):
     model = Actor
-    template_name = 'face_recognition/show_image.html'
+    template_name = 'face_recognition/display_image.html'
     context_object_name = 'actor'
 
     def get_context_data(self, **kwargs):
