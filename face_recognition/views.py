@@ -37,9 +37,20 @@ class ActorDisplayDV(DetailView):
         context = super(ActorDisplayDV, self).get_context_data(**kwargs)
         image_path = Actor.objects.filter(name=context['actor'])[0].image
         result_dict = efficient_net_face_recognition(image_path)
+
+        # 결과 이미지를 Context에 저장
         result_image = Image.fromarray(result_dict['image'], 'RGB')
         result_image_path = f"/media/images/detected/detected_{str(image_path).split('/')[-1]}"
         result_image.save("." + result_image_path)
-        context['face_detect_image'] = result_image_path
-        context['result'] = result_dict['result']
+
+        # 얼굴 이미지를 Context에 저장
+        face_list = list()
+        for i, face in enumerate(result_dict['face']):
+            face_image = Image.fromarray(face, 'RGB')
+            face_path = f"/media/images/cropped/cropped_{i}_{str(image_path).split('/')[-1]}"
+            face_image.save("." + face_path)
+            face_list.append([face_path])
+
+        context['detected_image'] = result_image_path
+        context['zipped_result'] = zip(face_list, result_dict['result'])
         return context

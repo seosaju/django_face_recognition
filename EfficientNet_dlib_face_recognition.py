@@ -25,15 +25,17 @@ def efficient_net_face_recognition(image_path):
     # Face Detect
     face_detector = dlib.get_frontal_face_detector()
     image = io.imread(path)    # return: ndarray
+    cropped_face, recognition_result = list(), list()
     detected_faces = face_detector(image)
     for i, face_rect in enumerate(detected_faces):
         print("Face #{} found at Left: {} Top: {} Right: {} Bottom: {}"
               .format(i, face_rect.left(), face_rect.top(), face_rect.right(), face_rect.bottom()))
-        face_detect_image = cv2.rectangle(image,
-                                          (face_rect.left(), face_rect.top()),      # x, y
-                                          (face_rect.right(), face_rect.bottom()),   # x+w, y+h
-                                          (255, 0, 0), 5)
         face = image[face_rect.top():face_rect.bottom(), face_rect.left():face_rect.right()]
+        cropped_face.append(face)
+        image = cv2.rectangle(image,
+                              (face_rect.left(), face_rect.top()),      # x, y
+                              (face_rect.right(), face_rect.bottom()),  # x+w, y+h
+                              (255, 0, 0), 5)
         try:
             face = resize(face, (224, 224))
         except IndexError or ValueError:
@@ -47,9 +49,10 @@ def efficient_net_face_recognition(image_path):
             for j, acc in enumerate(accuracy):
                 result[labels[j]] = acc
             result = sorted(result.items(), reverse=True, key=lambda item: item[1])
-            return {"image": face_detect_image, "result": result}
+            recognition_result.append(result)
             # _, output = torch.max(model(face), 1)
             # print(labels[output.item()])    # Result
+    return {"image": image, "face": cropped_face, "result": recognition_result}
 
 
 def image_loader(resize_face, loader):

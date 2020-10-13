@@ -7,15 +7,25 @@
         width: 30%;
         height: 30%;
     }
+
+    .face {
+        width: 224px;
+        height: 224px;
+    }
 </style>
 <head>
   <meta charset="UTF-8">
   <title>Display actor image</title>
 </head>
 <body>
-    <p><img src="{{ actor.image.url }}" alt="Image"> <img src="{{ face_detect_image }}" alt="Image"></p>
-    {% for name, percentage in result  %}
-        <p>{{ name }}: {{ percentage }}%</p>
+    <p><img src="{{ actor.image.url }}" alt="Image"> <img src="{{ detected_image }}" alt="Image"></p>
+    <hr>
+    {% for face, result in zipped_result %}
+        <p><img class="face" src="{{ face|join:"" }}" alt="Face"></p>
+        {% for name, percentage in result  %}
+            <p>{{ name }}: {{ percentage }}%</p>
+        {% endfor %}
+        <hr/>
     {% endfor %}
     <a href="{% url 'face_recognition:index' %}">Back</a>
 </body>
