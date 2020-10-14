@@ -6,9 +6,7 @@ from skimage import io
 from skimage.transform import resize
 from torchvision import transforms
 
-labels = ['Chang_Hyejin', 'Choei_Usik', 'Jeong_Hyeonjun', 'Jeong_Iseo', 'Jeong_Jiso',
-              'Jo_Yeojeong', 'Lee_Jeongeun', 'Lee_Seongyun', 'Park_Geunrok', 'Park_Myeonghun',
-              'Park_Sodam', 'Song_Gangho']
+labels = ['장혜진', '최우식', '정현준', '정이서', '정지소', '조여정', '이정은', '이선균', '박근록', '박명훈', '박소담', '송강호']
 
 
 def efficient_net_face_recognition(image_path):
@@ -35,7 +33,7 @@ def efficient_net_face_recognition(image_path):
         image = cv2.rectangle(image,
                               (face_rect.left(), face_rect.top()),      # x, y
                               (face_rect.right(), face_rect.bottom()),  # x+w, y+h
-                              (255, 0, 0), 5)
+                              (255, 0, 0), 3)
         try:
             face = resize(face, (224, 224))
         except IndexError or ValueError:
