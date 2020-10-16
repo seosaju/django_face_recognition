@@ -11,21 +11,40 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'css/face.css' %}" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <div class="row text-center m-3">
+            <div class="col-12">
+                {% for face in faces %}
+                    <img class="m-1" src="{{ face }}" alt="Face">
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <div class="container">
-        <div class="row">
-            <h1>기생충 얼굴 인식 프로그램</h1>
+        <div class="row text-center">
+            <div class="col">
+                <h1>기생충 얼굴 인식 프로그램</h1>
+            </div>
         </div>
-        <div class="row">
-            <p>영화 "기생충"에 등장하는 주연 및 조연 12명의 얼굴을 인식할 수 있는 CNN 기반 인공지능 모델</p>
+        <div class="row text-center">
+            <div class="col">
+                <p>영화 "기생충"에 등장하는 주연 및 조연 12명의 얼굴을 인식할 수 있는 CNN 기반 인공지능 모델</p>
+            </div>
         </div>
     </div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <button class="btn btn-primary btn-file">파일 추가{{ form.image }}</button>
-        <button class="btn btn-success" type="submit">얼굴 인식 시작</button>
-    </form>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-file mr-5">파일 추가{{ form.image }}</button>
+                    <button class="btn btn-success" type="submit">얼굴 인식 시작</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

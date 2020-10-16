@@ -1,4 +1,5 @@
 import time
+import glob
 
 from PIL import Image
 from django.http import HttpResponseRedirect
@@ -26,6 +27,12 @@ class ActorImageTV(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ActorImageTV, self).get_context_data(**kwargs)
+        faces = glob.glob('static/images/face/*.jpg')
+        context['faces'] = faces
+        return context
 
 
 class ActorDisplayDV(DetailView):
