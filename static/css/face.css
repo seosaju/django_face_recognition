@@ -1,0 +1,10 @@
+.face {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.recognition-image {
+    width: 100%;
+    height: 100%;
+}

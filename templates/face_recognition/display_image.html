@@ -1,28 +1,59 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ko">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Display actor image</title>
-    <link rel="stylesheet" href="{% static 'css/display_image.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>얼굴 인식 결과</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/face.css' %}" rel="stylesheet">
 </head>
 <body>
-    <p><img src="{{ actor.image.url }}" alt="Image"> <img src="{{ detected_image }}" alt="Image"></p>
+<main role="main">
+    <div class="container p-5">
+        <div class="row text-center">
+            <div class="col-lg">
+                <img class="recognition-image" src="{{ actor.image.url }}" alt="Image">
+                <h2 class="pt-1">원본 사진</h2>
+            </div>
+            <div class="col-lg">
+                <img class="recognition-image" src="{{ detected_image }}" alt="Image">
+                <h2 class="pt-1">얼굴 검출 사진</h2>
+            </div>
+        </div><!-- /.row -->
+    </div>
     <hr>
-    {% for face, result in zipped_result %}
-        <p><img class="face" src="{{ face|join:"" }}" alt="Face"></p>
-        <p>
-            {% for name, percentage in result  %}
-                {% if forloop.counter == 1 %}
-                    <h2>{{ name }}: {{ percentage }}%</h2>
-                {% else %}
-                    {{ name }}: {{ percentage }}%<br>
-                {% endif %}
+    <div class="container py-5">
+        <div class="row">
+            {% for face, result in zipped_result %}
+                <div class="col-sm text-center pb-3">
+                    <img class="face" src="{{ face|join:"" }}" alt="face">
+                    <p>
+                        {% for name, percentage in result %}
+                            {% if forloop.counter == 1 %}
+                                <h2>{{ name }}</h2>
+                                <h3>{{ percentage }}%</h3>
+                            {% else %}
+                                {{ name }}: {{ percentage }}% <br>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
             {% endfor %}
-        </p>
-        <hr/>
-    {% endfor %}
-    <a href="{% url 'face_recognition:index' %}">Back</a>
+        </div><!-- /.row -->
+    </div>
+    <div class="container">
+        <div class="col-12 text-center">
+          <button type="button" class="btn btn-outline-dark btn-lg center"><a href="{% url 'face_recognition:index' %}">돌아가기</a></button>
+        </div><!-- /.col -->
+    </div>
+</main>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OG2pamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
 </html>
