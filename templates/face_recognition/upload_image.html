@@ -11,14 +11,14 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
-    <link href="{% static 'css/face.css' %}" rel="stylesheet">
 </head>
-<body>
+<body id="main-body">
+<div class="container" id="main-page">
     <div class="container">
         <div class="row text-center m-3">
             <div class="col-12">
                 {% for face in faces %}
-                    <img class="m-1" src="{{ face }}" alt="Face">
+                    <img width="15%" class="m-1" src="{{ face }}" alt="Face">
                 {% endfor %}
             </div>
         </div>
@@ -26,7 +26,7 @@
     <div class="container">
         <div class="row text-center">
             <div class="col">
-                <h1>기생충 얼굴 인식 프로그램</h1>
+                <h1>영화 '기생충' 얼굴 인식 프로그램</h1>
             </div>
         </div>
         <div class="row text-center">
@@ -40,11 +40,12 @@
             <div class="col">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <button class="btn btn-primary btn-file mr-5">파일 추가{{ form.image }}</button>
-                    <button class="btn btn-success" type="submit">얼굴 인식 시작</button>
+                    <button class="btn btn-primary btn-lg btn-file mr-5">파일 추가{{ form.image }}</button>
+                    <button class="btn btn-success btn-lg" type="submit">얼굴 인식 시작</button>
                 </form>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
