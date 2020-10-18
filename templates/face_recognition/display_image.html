@@ -11,19 +11,19 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/face.css' %}" rel="stylesheet">
+    <link href="{% static 'css/face.css' %}?after" rel="stylesheet">
 </head>
 <body>
 <main role="main">
-    <div class="container p-5">
+    <div class="container p-3">
         <div class="row text-center">
             <div class="col-lg">
-                <img class="recognition-image" src="{{ actor.image.url }}" alt="Image">
-                <h2 class="pt-1">원본 사진</h2>
+                <img class="img-fluid" src="{{ actor.image.url }}" alt="Original Image">
+                <h2 class="p-3">원본 사진</h2>
             </div>
             <div class="col-lg">
-                <img class="recognition-image" src="{{ detected_image }}" alt="Image">
-                <h2 class="pt-1">얼굴 검출 결과</h2>
+                <img class="img-fluid" src="{{ detected_image }}" alt="Result Image">
+                <h2 class="p-3">얼굴 검출 결과</h2>
             </div>
         </div><!-- /.row -->
     </div>
@@ -32,7 +32,7 @@
         <div class="row">
             {% for face, result in zipped_result %}
                 <div class="col-sm text-center pb-3">
-                    <img class="face" src="{{ face|join:"" }}" alt="face">
+                    <img class="face-image" src="{{ face|join:"" }}" alt="Actor Face">
                     <p>
                         {% for name, percentage in result %}
                             {% if forloop.counter == 1 %}

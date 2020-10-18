@@ -1,3 +1,5 @@
+import copy
+
 import cv2
 import dlib
 import torch
@@ -10,7 +12,7 @@ labels = ['장혜진', '최우식', '정현준', '정이서', '정지소', '조�
 
 
 def efficient_net_face_recognition(image_path):
-    path = image_path   # Image path
+    path = image_path  # Image path
 
     # Efficient-Net
     model_name = 'efficientnet-b0'
@@ -22,18 +24,19 @@ def efficient_net_face_recognition(image_path):
 
     # Face Detect
     face_detector = dlib.get_frontal_face_detector()
-    image = io.imread(path)    # return: ndarray
+    original_image = io.imread(path)  # return: ndarray
+    result_image = copy.copy(original_image)
     cropped_face, recognition_result = list(), list()
-    detected_faces = face_detector(image)
+    detected_faces = face_detector(original_image)
     for i, face_rect in enumerate(detected_faces):
         print("Face #{} found at Left: {} Top: {} Right: {} Bottom: {}"
               .format(i, face_rect.left(), face_rect.top(), face_rect.right(), face_rect.bottom()))
-        face = image[face_rect.top():face_rect.bottom(), face_rect.left():face_rect.right()]
+        face = original_image[face_rect.top():face_rect.bottom(), face_rect.left():face_rect.right()]
         cropped_face.append(face)
-        image = cv2.rectangle(image,
-                              (face_rect.left(), face_rect.top()),      # x, y
-                              (face_rect.right(), face_rect.bottom()),  # x+w, y+h
-                              (255, 0, 0), 3)
+        result_image = cv2.rectangle(result_image,
+                                     (face_rect.left(), face_rect.top()),  # x, y
+                                     (face_rect.right(), face_rect.bottom()),  # x+w, y+h
+                                     (255, 0, 0), 3)
         try:
             face = resize(face, (224, 224))
         except IndexError or ValueError:
@@ -48,7 +51,7 @@ def efficient_net_face_recognition(image_path):
                 result[labels[j]] = acc
             result = sorted(result.items(), reverse=True, key=lambda item: item[1])
             recognition_result.append(result)
-    return {"image": image, "face": cropped_face, "result": recognition_result}
+    return {"image": result_image, "face": cropped_face, "result": recognition_result}
 
 
 def image_loader(resize_face, loader):
