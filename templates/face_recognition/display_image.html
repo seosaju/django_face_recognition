@@ -38,12 +38,14 @@
                         {% if forloop.counter == 1 %}
                             <h2>{{ name }}</h2>
                             <h3>{{ percentage }}%</h3>
-                <details class="btn btn-light">
-                    <summary><i class="fas fa-percentage mr-2"></i>다른 배우들은?</summary>
+                <details>
+                    <summary class="btn btn-light"><i class="fas fa-percentage mr-2"></i>다른 배우들은?</summary>
+                    <div class="mt-2">
                         {% else %}
                             <pre>{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
                         {% endif %}
                     {% endfor %}
+                    </div>
                 </details>
                 </p>
             </div>
