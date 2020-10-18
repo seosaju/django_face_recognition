@@ -32,7 +32,6 @@ details > summary::-webkit-details-marker {
 
 pre {
     display: inline-block;
-    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
     margin: 0;
 }
 
@@ -69,12 +68,12 @@ pre {
 }
 
 .overlay-container:hover .overlay {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .face-name {
   color: white;
-  font-size: 20px;
+  font-size: 24px;
   position: absolute;
   top: 50%;
   left: 50%;
