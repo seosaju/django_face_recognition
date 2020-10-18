@@ -1,0 +1,46 @@
+.result-face {
+    max-width: 200px;
+    max-height: 200px;
+    width: 100%;
+    border: 3px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.index-face {
+    max-width: 150px;
+    max-height: 150px;
+    width: 100%;
+}
+
+details {
+    transition: height 1s ease;
+    overflow: hidden;
+}
+
+details:not([open]) {
+    height: auto;
+}
+
+details[open] {
+    height: auto;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+pre {
+    display: inline-block;
+    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+    font-size: 100%;
+    margin: 0;
+}
+
+.zoom {
+    transition: transform 0.5s;
+}
+
+.zoom:hover {
+    transform: scale(1.05);
+}

@@ -10,7 +10,8 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}?after" rel="stylesheet">
+    <link href="{% static 'css/face_recognition.css' %}?after" rel="stylesheet">
     <script src="https://kit.fontawesome.com/7266db2f2b.js" crossorigin="anonymous"></script>
 </head>
 <body id="main-body">
@@ -19,7 +20,7 @@
         <div class="row text-center m-3">
             <div class="col-12">
                 {% for face in faces %}
-                    <img width="15%" class="m-1" src="{{ face }}" alt="Face">
+                    <img class="index-face m-1 zoom" src="{{ face }}" alt="Face">
                 {% endfor %}
             </div>
         </div>
@@ -41,7 +42,8 @@
             <div class="col">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <button class="btn btn-primary btn-lg btn-file mr-5"><i class="fas fa-file-image mr-3"></i>사진 파일 업로드{{ form.image }}</button>
+                    <button class="btn btn-primary btn-lg btn-file"><i class="fas fa-file-image mr-3"></i>사진 파일 업로드{{ form.image }}</button>
+                    <br><br>
                     <button class="btn btn-success btn-lg" type="submit"><i class="fas fa-user mr-3"></i>얼굴 인식 시작</button>
                 </form>
             </div>
