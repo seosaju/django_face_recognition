@@ -1,6 +1,6 @@
 .result-face {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 130px;
+    max-height: 130px;
     width: 100%;
     border: 3px solid black;
     border-radius: 50%;
@@ -33,7 +33,6 @@ details > summary::-webkit-details-marker {
 pre {
     display: inline-block;
     font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
-    font-size: 100%;
     margin: 0;
 }
 

@@ -18,16 +18,16 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-lg">
-            <img class="img-fluid p-3" src="{{ actor.image.url }}" alt="Original Image">
-            <h2>원본 사진</h2>
+            <img class="img-fluid p-2" src="{{ actor.image.url }}" alt="Original Image">
+            <h4>원본 사진</h4>
         </div>
         <div class="col-lg">
-            <img class="img-fluid p-3" src="{{ detected_image }}" alt="Result Image">
-            <h2>얼굴 검출 결과</h2>
+            <img class="img-fluid p-2" src="{{ detected_image }}" alt="Result Image">
+            <h4>얼굴 검출 결과</h4>
         </div>
     </div><!-- /.row -->
 </div>
-<hr class="p-3">
+<hr class="p-1">
 <div class="container">
     <div class="row">
         {% for face, result in zipped_result %}
@@ -37,12 +37,12 @@
                     {% for name, percentage in result %}
                         {% if forloop.counter == 1 %}
                             <h2>{{ name }}</h2>
-                            <h3>{{ percentage }}%</h3>
+                            <h5>{{ percentage }}%</h5>
                 <details>
-                    <summary class="btn btn-light"><i class="fas fa-percentage mr-2"></i>다른 배우들은?</summary>
+                    <summary class="btn btn-light" style="font-size: 80%"><i class="fas fa-percentage mr-2"></i>다른 배우는?</summary>
                     <div class="mt-2">
                         {% else %}
-                            <pre>{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
+                            <pre style="font-size: 80%">{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
                         {% endif %}
                     {% endfor %}
                     </div>
