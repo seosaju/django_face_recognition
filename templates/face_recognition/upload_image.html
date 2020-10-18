@@ -18,11 +18,16 @@
 <div class="container" id="main-page">
     <div class="container">
         <div class="row text-center m-3">
-            <div class="col-12">
-                {% for face in faces %}
-                    <img class="index-face m-1 zoom" src="{{ face }}" alt="Face">
-                {% endfor %}
-            </div>
+            {% for face in faces %}
+                <div class="col-2">
+                    <div class="overlay-container m-2 zoom">
+                        <img class="face-image" src="{{ face }}" alt="Face">
+                        <div class="overlay">
+                            <div class="face-name">{{ face|slice:"19:22" }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
     <div class="container">

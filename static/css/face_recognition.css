@@ -8,9 +8,9 @@
 }
 
 .index-face {
-    max-width: 150px;
-    max-height: 150px;
-    width: 100%;
+    max-width: 200px;
+    max-height: 200px;
+    width: 110%;
 }
 
 details {
@@ -41,5 +41,45 @@ pre {
 }
 
 .zoom:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
+}
+
+.overlay-container {
+  position: relative;
+  width: 110%;
+}
+
+.face-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: black;
+}
+
+.overlay-container:hover .overlay {
+  opacity: 0.5;
+}
+
+.face-name {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
