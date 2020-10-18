@@ -11,7 +11,8 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/face_recognition.css' %}?after" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'css/face_recognition.css' %}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/7266db2f2b.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -30,31 +31,37 @@
 <hr class="p-1">
 <div class="container">
     <div class="row">
-        {% for face, result in zipped_result %}
-            <div class="col-sm text-center">
-                <img class="result-face zoom" src="{{ face|join:"" }}" alt="Actor Face">
-                <p>
-                    {% for name, percentage in result %}
-                        {% if forloop.counter == 1 %}
-                            <h2>{{ name }}</h2>
-                            <h5>{{ percentage }}%</h5>
-                <details>
-                    <summary class="btn btn-light" style="font-size: 80%"><i class="fas fa-percentage mr-2"></i>다른 배우는?</summary>
-                    <div class="mt-2">
-                        {% else %}
-                            <pre style="font-size: 80%">{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
-                        {% endif %}
-                    {% endfor %}
-                    </div>
-                </details>
-                </p>
+        {% if zipped_result %}
+            {% for face, result in zipped_result %}
+                <div class="col text-center">
+                    <img class="result-face zoom" src="{{ face|join:"" }}" alt="Actor Face">
+                    <p>
+                        {% for name, percentage in result %}
+                            {% if forloop.counter == 1 %}
+                                <h2>{{ name }}</h2>
+                                <h5>{{ percentage }}%</h5>
+                        <details>
+                            <summary class="btn btn-light" style="font-size: 80%"><i class="fas fa-percentage mr-2"></i>다른 배우는?</summary>
+                            <div class="mt-2">
+                                {% else %}
+                                    <pre style="font-size: 80%">{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        </details>
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col text-center">
+                <h2>이런! 인식된 얼굴이 없습니다!</h2>
             </div>
-        {% endfor %}
+        {% endif %}
     </div><!-- /.row -->
 </div>
 <div class="container">
-    <div class="col text-center">
-        <a href="{% url 'face_recognition:index' %}"><button type="button" class="btn btn-success btn-lg center mb-3"><i class="fas fa-undo mr-3"></i>돌아가기</button></a>
+    <div class="col text-center mt-3">
+        <a href="{% url 'face_recognition:index' %}"><button type="button" class="btn btn-dark btn-lg center mb-3"><i class="fas fa-undo mr-3"></i>돌아가기</button></a>
     </div><!-- /.col -->
 </div>
 </body>

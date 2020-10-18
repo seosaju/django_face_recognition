@@ -59,5 +59,8 @@ class ActorDisplayDV(DetailView):
             face_list.append([face_path])
 
         context['detected_image'] = result_image_path
-        context['zipped_result'] = zip(face_list, result_dict['result'])
+        if not face_list:
+            context['zipped_result'] = None
+        else:
+            context['zipped_result'] = zip(face_list, result_dict['result'])
         return context
