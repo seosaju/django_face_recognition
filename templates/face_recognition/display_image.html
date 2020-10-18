@@ -11,49 +11,50 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/face.css' %}?after" rel="stylesheet">
+    <link href="{% static 'css/face_recognition.css' %}?after" rel="stylesheet">
     <script src="https://kit.fontawesome.com/7266db2f2b.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<main role="main">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-lg">
-                <img class="img-fluid p-3" src="{{ actor.image.url }}" alt="Original Image">
-                <h2>원본 사진</h2>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-lg">
+            <img class="img-fluid p-3" src="{{ actor.image.url }}" alt="Original Image">
+            <h2>원본 사진</h2>
+        </div>
+        <div class="col-lg">
+            <img class="img-fluid p-3" src="{{ detected_image }}" alt="Result Image">
+            <h2>얼굴 검출 결과</h2>
+        </div>
+    </div><!-- /.row -->
+</div>
+<hr class="p-3">
+<div class="container">
+    <div class="row">
+        {% for face, result in zipped_result %}
+            <div class="col-sm text-center">
+                <img class="result-face zoom" src="{{ face|join:"" }}" alt="Actor Face">
+                <p>
+                    {% for name, percentage in result %}
+                        {% if forloop.counter == 1 %}
+                            <h2>{{ name }}</h2>
+                            <h3>{{ percentage }}%</h3>
+                <details class="btn btn-light">
+                    <summary><i class="fas fa-percentage mr-2"></i>다른 배우들은?</summary>
+                        {% else %}
+                            <pre>{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
+                        {% endif %}
+                    {% endfor %}
+                </details>
+                </p>
             </div>
-            <div class="col-lg">
-                <img class="img-fluid p-3" src="{{ detected_image }}" alt="Result Image">
-                <h2>얼굴 검출 결과</h2>
-            </div>
-        </div><!-- /.row -->
-    </div>
-    <hr class="p-3">
-    <div class="container">
-        <div class="row">
-            {% for face, result in zipped_result %}
-                <div class="col-sm text-center">
-                    <img class="face-image" src="{{ face|join:"" }}" alt="Actor Face">
-                    <p>
-                        {% for name, percentage in result %}
-                            {% if forloop.counter == 1 %}
-                                <h2>{{ name }}</h2>
-                                <h3>{{ percentage }}%</h3>
-                            {% else %}
-                                {{ name }}: {{ percentage|floatformat:"3" }}% <br>
-                            {% endif %}
-                        {% endfor %}
-                    </p>
-                </div>
-            {% endfor %}
-        </div><!-- /.row -->
-    </div>
-    <div class="container">
-        <div class="col text-center">
-            <a href="{% url 'face_recognition:index' %}"><button type="button" class="btn btn-success btn-lg center mb-3"><i class="fas fa-undo mr-3"></i>돌아가기</button></a>
-        </div><!-- /.col -->
-    </div>
-</main>
+        {% endfor %}
+    </div><!-- /.row -->
+</div>
+<div class="container">
+    <div class="col text-center">
+        <a href="{% url 'face_recognition:index' %}"><button type="button" class="btn btn-success btn-lg center mb-3"><i class="fas fa-undo mr-3"></i>돌아가기</button></a>
+    </div><!-- /.col -->
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OG2pamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
