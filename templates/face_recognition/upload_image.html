@@ -1,62 +1,49 @@
-{% load static %}
+{% extends 'face_recognition/base.html' %}
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Actor image upload</title>
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="{% static 'css/index.css' %}" rel="stylesheet">
-    <link href="{% static 'css/face_recognition.css' %}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/7266db2f2b.js" crossorigin="anonymous"></script>
-</head>
-<body id="main-body">
-<div class="container" id="main-page">
-    <div class="container">
-        <div class="row text-center m-3">
-            {% for face in faces %}
-                <div class="col-2">
-                    <div class="overlay-container m-2 zoom">
-                        <img class="face-image" src="{{ face }}" alt="Face">
-                        <div class="overlay">
-                            <div class="face-name">{{ face|slice:"19:22" }}</div>
+{% block content %}
+    <body id="main-body">
+    <div class="container" id="main-page">
+        <div class="container">
+            <div class="row text-center m-3">
+                {% for face in faces %}
+                    <div class="col-2">
+                        <div class="overlay-container m-2 zoom">
+                            <img class="face-image" src="{{ face }}" alt="Face">
+                            <div class="overlay">
+                                <div class="face-name">{{ face|slice:"19:22" }}</div>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <h1>영화 '기생충' 얼굴 인식 프로그램</h1>
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="container">
-        <div class="row text-center">
-            <div class="col">
-                <h1>영화 '기생충' 얼굴 인식 프로그램</h1>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <p>영화 "기생충"에 등장하는 주연 및 조연 12명의 얼굴을 인식할 수 있는 CNN 기반 인공지능 모델</p>
+                    {% if error_message %}
+                        <h4 class="p-2">{{ error_message }}</h4>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <div class="row text-center">
-            <div class="col">
-                <p>영화 "기생충"에 등장하는 주연 및 조연 12명의 얼굴을 인식할 수 있는 CNN 기반 인공지능 모델</p>
-                {% if error_message %}
-                    <h4 class="p-2">{{ error_message }}</h4>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row text-center">
-            <div class="col">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <button class="btn btn-primary btn-lg btn-file"><i class="fas fa-file-image mr-3"></i>파일 업로드{{ form.image }}</button>
-                    <br><br>
-                    <button class="btn btn-success btn-lg" type="submit"><i class="fas fa-user mr-3"></i>얼굴 인식 시작</button>
-                </form>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <button class="btn btn-primary btn-lg btn-file"><i class="fas fa-file-image mr-3"></i>파일 업로드{{ form.image }}</button>
+                        <br><br>
+                        <button class="btn btn-success btn-lg" type="submit"><i class="fas fa-user mr-3"></i>얼굴 인식 시작</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+    </body>
+{% endblock %}
