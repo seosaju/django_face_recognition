@@ -3,6 +3,7 @@ import glob
 
 from PIL import Image
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
 
@@ -19,9 +20,17 @@ class ActorImageTV(TemplateView):
         form = ActorForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.name = f"image_{time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))}"
-            obj.save()
-            return HttpResponseRedirect(reverse_lazy('face_recognition:display', kwargs={'pk': obj.id}))
+            obj.name = f"media_{time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))}"
+            file_format = str(obj.image)[-3:]
+            if file_format in ['jpg', 'jpeg']:
+                obj.save()
+                return HttpResponseRedirect(reverse_lazy('face_recognition:image_display', kwargs={'pk': obj.id}))
+            elif file_format in ['avi', 'mp4']:
+                obj.save()
+                return HttpResponseRedirect(reverse_lazy('face_recognition:video_display', kwargs={'pk': obj.id}))
+            else:
+                context = self.get_context_data(form=form, error_message="업로드한 파일은 지원하지 않는 포맷입니다.")
+                return self.render_to_response(context)
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
 
@@ -35,13 +44,13 @@ class ActorImageTV(TemplateView):
         return context
 
 
-class ActorDisplayDV(DetailView):
+class ActorImageDisplayDV(DetailView):
     model = Actor
     template_name = 'face_recognition/display_image.html'
     context_object_name = 'actor'
 
     def get_context_data(self, **kwargs):
-        context = super(ActorDisplayDV, self).get_context_data(**kwargs)
+        context = super(ActorImageDisplayDV, self).get_context_data(**kwargs)
         image_path = Actor.objects.filter(name=context['actor'])[0].image
         result_dict = efficient_net_face_recognition(image_path)
 
@@ -64,3 +73,8 @@ class ActorDisplayDV(DetailView):
         else:
             context['zipped_result'] = zip(face_list, result_dict['result'])
         return context
+
+
+class ActorVideoDisplayDV(DetailView):
+    model = Actor
+    template_name = 'face_recognition/display_video.html'

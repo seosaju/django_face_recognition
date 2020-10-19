@@ -5,5 +5,6 @@ app_name = 'face_recognition'
 
 urlpatterns = [
     path('', views.ActorImageTV.as_view(), name='index'),
-    path('actor/<int:pk>', views.ActorDisplayDV.as_view(), name='display'),
+    path('actor/image/<int:pk>', views.ActorImageDisplayDV.as_view(), name='image_display'),
+    path('actor/video/<int:pk>', views.ActorVideoDisplayDV.as_view(), name='video_display'),
 ]
