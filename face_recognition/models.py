@@ -13,7 +13,7 @@ def directory_path(instance, filename):
 
 class Actor(models.Model):
     name = models.CharField(max_length=200, blank=True)  # ex) image_2018_10_09_08_29_30.jpg
-    image = models.FileField(upload_to=directory_path)
+    file = models.FileField(upload_to=directory_path)
 
     def __str__(self):
         return self.name
