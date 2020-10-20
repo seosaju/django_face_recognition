@@ -1,15 +1,16 @@
-import time
 import glob
+import os
+import time
 
 from PIL import Image
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, DetailView
 
 from EfficientNet_dlib_face_recognition import efficient_net_face_recognition
 from face_recognition.forms import ActorForm
 from face_recognition.models import Actor
+from video_to_image import video_to_image
 
 
 class ActorImageTV(TemplateView):
@@ -21,13 +22,19 @@ class ActorImageTV(TemplateView):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.name = f"media_{time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))}"
-            file_format = str(obj.image)[-3:]
+            file_format = str(obj.file)[-3:]
             if file_format in ['jpg', 'jpeg']:
                 obj.save()
                 return HttpResponseRedirect(reverse_lazy('face_recognition:image_display', kwargs={'pk': obj.id}))
             elif file_format in ['avi', 'mp4']:
+                # 1) 영상 받아오기
                 obj.save()
-                return HttpResponseRedirect(reverse_lazy('face_recognition:video_display', kwargs={'pk': obj.id}))
+                video = str(Actor.objects.filter(id=obj.id)[0].file)
+                video_path = f"media/{video}"
+                directory = f"media/images/original/{video.split('.')[0]}"
+                video_to_image(video_path, directory)
+                return HttpResponseRedirect(reverse_lazy('face_recognition:video_display',
+                                                         kwargs={'pk': obj.id, 'image_num': 1}))
             else:
                 context = self.get_context_data(form=form, error_message="업로드한 파일은 지원하지 않는 포맷입니다.")
                 return self.render_to_response(context)
@@ -51,7 +58,7 @@ class ActorImageDisplayDV(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ActorImageDisplayDV, self).get_context_data(**kwargs)
-        image_path = Actor.objects.filter(name=context['actor'])[0].image
+        image_path = Actor.objects.filter(name=context['actor'])[0].file
         result_dict = efficient_net_face_recognition(image_path)
 
         # 결과 이미지를 Context에 저장
@@ -78,3 +85,13 @@ class ActorImageDisplayDV(DetailView):
 class ActorVideoDisplayDV(DetailView):
     model = Actor
     template_name = 'face_recognition/display_video.html'
+    context_object_name = 'actor'
+
+    def get_context_data(self, **kwargs):
+        context = super(ActorVideoDisplayDV, self).get_context_data(**kwargs)
+        video = str(Actor.objects.filter(id=self.kwargs['pk'])[0].file)
+        directory = f"media/images/original/{video.split('.')[0]}"
+        context['image_num'] = int(self.kwargs['image_num'])
+        context['max_length'] = len(next(os.walk(f"{directory}/"))[2])
+        context['image'] = f"/{directory}/image_{self.kwargs['image_num']}.jpg"
+        return context

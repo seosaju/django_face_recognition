@@ -37,7 +37,7 @@
                 <div class="col">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <button class="btn btn-primary btn-lg btn-file"><i class="fas fa-file-image mr-3"></i>파일 업로드{{ form.image }}</button>
+                        <button class="btn btn-primary btn-lg btn-file"><i class="fas fa-file-image mr-3"></i>파일 업로드{{ form.file }}</button>
                         <br><br>
                         <button class="btn btn-success btn-lg" type="submit"><i class="fas fa-user mr-3"></i>얼굴 인식 시작</button>
                     </form>

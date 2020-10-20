@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Display Video</title>
-</head>
-<body>
-    <p>Display Video</p>
-</body>
-</html>
+{% extends 'face_recognition/base.html' %}
+
+{% block content %}
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ image }}" alt="Image">
+                    {% if image_num > 1 %}
+                        <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"-1" %}">Prev</a>
+                    {% endif %}
+                    {% if image_num < max_length  %}
+                        <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"1" %}">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock %}
