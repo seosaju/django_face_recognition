@@ -16,7 +16,7 @@ def video_to_image(video_path, directory):
         return has_frames
 
     second = 0
-    frame_rate = 5  # it will capture image in each 5 second
+    frame_rate = 3  # it will capture image in each 5 second
     count = 1
     frame = get_frame(second)
     while frame:
