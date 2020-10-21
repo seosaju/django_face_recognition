@@ -2,18 +2,67 @@
 
 {% block content %}
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <img src="{{ image }}" alt="Image">
-                    {% if image_num > 1 %}
-                        <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"-1" %}">Prev</a>
-                    {% endif %}
-                    {% if image_num < max_length  %}
-                        <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"1" %}">Next</a>
-                    {% endif %}
-                </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg">
+                <img class="img-fluid p-2" src="{{ image }}" alt="Original Image">
+                <h4>원본 사진</h4>
             </div>
+            <div class="col-lg">
+                <img class="img-fluid p-2" src="{{ detected_image }}" alt="Result Image">
+                <h4>얼굴 검출 결과</h4>
+            </div>
+        </div><!-- /.row -->
+    </div>
+    <hr class="p-1">
+    <div class="container">
+        <div class="row">
+            {% if zipped_result %}
+                {% for face, result in zipped_result %}
+                    <div class="col text-center">
+                        <img class="result-face zoom" src="{{ face|join:"" }}" alt="Actor Face">
+                        <p>
+                            {% for name, percentage in result %}
+                                {% if forloop.counter == 1 %}
+                                    <h2>{{ name }}</h2>
+                                    <h5>{{ percentage }}%</h5>
+                            <details>
+                                <summary class="btn btn-light" style="font-size: 80%"><i class="fas fa-percentage mr-2"></i>다른 배우는?</summary>
+                                <div class="mt-2">
+                                    {% else %}
+                                        <pre style="font-size: 80%">{{ name }}: {{ percentage|floatformat:"3"|rjust:"7" }}%</pre><br>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                            </details>
+                        </p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col text-center">
+                    <h2>이런! 인식된 얼굴이 없습니다!</h2>
+                </div>
+            {% endif %}
+        </div><!-- /.row -->
+    </div>
+    <div class="container">
+        <div class="row">
+            {% if image_num > 1 %}
+                <div class="col text-center">
+                    <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"-1" %}"><button type="button" class="btn-primary btn-lg center">이전 사진</button></a>
+                </div>
+            {% endif %}
+            {% if image_num < max_length  %}
+                <div class="col text-center">
+                    <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"1" %}"><button type="button" class="btn-primary btn-lg center">다음 사진</button></a>
+                </div>
+            {% endif %}
         </div>
+    </div>
+    <div class="container">
+        <div class="col text-center mt-3">
+            <a href="{% url 'face_recognition:index' %}"><button type="button" class="btn btn-dark btn-lg center mb-3"><i class="fas fa-undo mr-3"></i>돌아가기</button></a>
+        </div><!-- /.col -->
+    </div>
     </body>
 {% endblock %}

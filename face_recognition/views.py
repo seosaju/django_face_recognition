@@ -90,8 +90,34 @@ class ActorVideoDisplayDV(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ActorVideoDisplayDV, self).get_context_data(**kwargs)
         video = str(Actor.objects.filter(id=self.kwargs['pk'])[0].file)
-        directory = f"media/images/original/{video.split('.')[0]}"
+        video_name = video.split("/")[1].split(".")[0]
+        original_image_directory = f"media/images/original/{video.split('.')[0]}"
         context['image_num'] = int(self.kwargs['image_num'])
-        context['max_length'] = len(next(os.walk(f"{directory}/"))[2])
-        context['image'] = f"/{directory}/image_{self.kwargs['image_num']}.jpg"
+        context['max_length'] = len(next(os.walk(f"{original_image_directory}/"))[2])
+        context['image'] = f"/{original_image_directory}/image_{self.kwargs['image_num']}.jpg"
+        if not os.path.exists(f"media/images/detected/videos/{video_name}"):
+            os.mkdir(f"media/images/detected/videos/{video_name}")  # for detected_image
+            os.mkdir(f"media/images/cropped/videos/{video_name}")   # for cropped image
+
+        result_dict = efficient_net_face_recognition("." + context['image'])
+
+        # 결과 이미지를 Context에 저장
+        result_image = Image.fromarray(result_dict['image'], 'RGB')
+        result_image_path = f"/media/images/detected/videos/{video_name}/detected_{context['image_num']}.jpg"
+        result_image.save("." + result_image_path)
+        context['detected_image'] = result_image_path
+
+        # 얼굴 이미지를 Context에 저장
+        face_list = list()
+        for i, face in enumerate(result_dict['face']):
+            face_image = Image.fromarray(face, 'RGB')
+            face_path = f"/media/images/cropped/videos/{video_name}/cropped_{context['image_num']}_{i}.jpg"
+            face_image.save("." + face_path)
+            face_list.append([face_path])
+
+        context['detected_image'] = result_image_path
+        if not face_list:
+            context['zipped_result'] = None
+        else:
+            context['zipped_result'] = zip(face_list, result_dict['result'])
         return context
