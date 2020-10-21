@@ -46,17 +46,15 @@
         </div><!-- /.row -->
     </div>
     <div class="container">
-        <div class="row">
-            {% if image_num > 1 %}
-                <div class="col text-center">
-                    <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"-1" %}"><button type="button" class="btn-primary btn-lg center">이전 사진</button></a>
-                </div>
-            {% endif %}
-            {% if image_num < max_length  %}
-                <div class="col text-center">
-                    <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"1" %}"><button type="button" class="btn-primary btn-lg center">다음 사진</button></a>
-                </div>
-            {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                {% if image_num > 1 %}
+                        <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"-1" %}"><button type="button" class="btn-primary btn-lg center">이전 사진</button></a>
+                {% endif %}
+                {% if image_num < max_length  %}
+                        <a href="{% url 'face_recognition:video_display' pk=actor.id image_num=image_num|add:"1" %}"><button type="button" class="btn-primary btn-lg center">다음 사진</button></a>
+                {% endif %}
+            </div>
         </div>
     </div>
     <div class="container">
