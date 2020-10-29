@@ -1,4 +1,5 @@
 import copy
+import ssl
 
 import cv2
 import dlib
@@ -26,6 +27,7 @@ def efficient_net_face_recognition(image_path):
 
     # Efficient-Net
     model_name = 'efficientnet-b0'
+    ssl._create_default_https_context = ssl._create_unverified_context
     model = EfficientNet.from_pretrained(model_name, num_classes=12)
     model.load_state_dict(torch.load('actor_model.pt', map_location=torch.device('cpu')))
     model.eval()
