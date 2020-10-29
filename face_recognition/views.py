@@ -22,7 +22,7 @@ class ActorImageTV(TemplateView):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.name = f"media_{time.strftime('%Y-%m-%d_%H_%M_%S', time.localtime(time.time()))}"
-            file_format = str(obj.file)[-3:]
+            file_format = str(obj.file).split(".")[1]
             if file_format in ['jpg', 'jpeg']:
                 obj.save()
                 return HttpResponseRedirect(reverse_lazy('face_recognition:image_display', kwargs={'pk': obj.id}))

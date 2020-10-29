@@ -2,7 +2,7 @@ from django.db import models
 
 
 def directory_path(instance, filename):
-    file_format = filename[-3:]
+    file_format = filename.split(".")[1]
     if file_format in ['jpg', 'jpeg']:
         return f'images/original/{filename}'
     elif file_format in ['avi', 'mp4']:
